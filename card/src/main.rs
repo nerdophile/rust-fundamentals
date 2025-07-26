@@ -10,7 +10,6 @@ impl Deck {
         let suits = ["Hearts", "Spades", "Diamonds"];
         let values = ["Ace", "Two", "Three"];
         let mut cards = vec![];
-
         //Double nested for loop
         for suit in suits {
             for value in values {
@@ -25,10 +24,24 @@ impl Deck {
         let mut rng_value = rng();
         self.cards.shuffle(&mut rng_value);
     }
+
+    fn deal(&mut self, num_cards: usize) -> Vec<String> {
+        if num_cards > self.cards.len() {
+            panic!("Not enough cards in the deck to deal {num_cards} cards.");
+        }
+        self.cards.split_off(self.cards.len() - num_cards)
+    }
 }
 
 fn main() {
     let mut deck = Deck::new();
     deck.shuffle();
-    println!("Heres your deck: {:#?}", deck);
+    println!("Heres your deck: {:#?}", deck.cards);
+
+    let cards = deck.deal(3);
+
+    println!("You have been dealt: {:#?}", cards);
+
+    // Print length of the deck
+    println!("Number of cards left in the deck: {}", deck.cards.len());
 }
